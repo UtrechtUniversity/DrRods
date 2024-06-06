@@ -55,6 +55,6 @@ Its content should be structured like this:
     db_port=5432
     db_name=ICAT
 ```
-The toolset will use this information whenever it seeks to connect to the PostgreSQL database..
+The toolset will use this information whenever it seeks to connect to the PostgreSQL database.
 
 

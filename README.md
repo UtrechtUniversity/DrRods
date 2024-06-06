@@ -45,4 +45,16 @@ Install DrRods tools
 git clone https://github.com/UtrechtUniversity/DrRods.git
 ```
 
+Create a textfile named *database.ini* in the directory where the DrRods tools reside.
+Its content should be structured like this:
+```
+    [postgresql]
+    db_username=irodsdatabaseuser
+    db_password=extremelysecret
+    db_host=hostname@domain.net
+    db_port=5432
+    db_name=ICAT
+```
+The toolset will use this information whenever it seeks to connect to the PostgreSQL database..
+
 

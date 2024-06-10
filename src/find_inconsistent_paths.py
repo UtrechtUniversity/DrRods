@@ -28,7 +28,7 @@ def main(outputfile):
         # CSV header
         separator = ''    # first field not preceeded by separator
         for field in drrods_sql.inconsistent_paths_columns():
-            f.write(separator + field)
+            f.write(separator + csv_dquote(field))
             separator = CSV_SEPARATOR
         f.write('\n')            
         

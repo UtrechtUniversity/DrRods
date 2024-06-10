@@ -19,17 +19,18 @@ that does not properly mimic the logical path.
 Replicas that reference a data file located outside the vault directory 
 are ignored.
 The output is a csv-formatted file. Each row holds information on 
-a replica, where the column 'expected\_data\_path' depict an alternative
+a replica, where the column 'expected\_data\_path' depicts an alternative
 path that is derived from the logical path.
 
-Whenever a data\_path does no longer mimic the logical path, there exist
+Whenever a data\_path does no longer mimic the logical path, there exists
 a risk of replicas becoming soft-linked during subsequent data operations. 
 
-Soft-linked replicas means that replicas of different data objects 
-reference the same data file. 
-Note that this could lead to data loss: When a user deletes one of the 
-involved data objects, then the replica of the other data object can no
-longer access its data file. 
+A soft-linked replica references a data file that is *also* referenced
+by an entirely different data object. 
+Note that this situation could lead to data loss: 
+When a user deletes one of the 
+involved data objects, then the linked replica of the other data object can no
+longer access its data file, evn though it may appear to be 'good'.. 
 
 Nowadays iRODS provides for logical locking of data objects and their
 replicas. This should greatly assist to prevent any new occurrences of 

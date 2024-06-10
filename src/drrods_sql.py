@@ -114,6 +114,120 @@ where data_id = %s
     return replica_count
 
 
+def inconsistent_paths_columns():
+    return [
+        # columns from query inconsistent_paths:
+        'hostname','data_id','data_repl_num','data_size','data_is_dirty',
+        'data_checksum','modify_ts','resc_name','actual_data_path','expected_data_path',
+        # columns from count_other_replicas_with_same_data_path:
+        'actual_linked_use','expected_linked_use'
+        ]
+
+def inconsistent_paths(icat_connection, data_id = None):
+    conditional = ''
+    if data_id:
+        conditional = ' and d.data_id = %s '
+    query = """
+select replicas.resc_net, data_id, data_repl_num, data_size, data_is_dirty, 
+    replicas.data_checksum as DATA_CHECKSUM, modify_ts, 
+    replicas.resc_name as RESC_NAME, 
+    datapath as ACTUAL,  
+    vaultdir||collname||'/'||dataname as EXPECTED 
+from (
+   select 
+      r.resc_net as RESC_NET,
+      d.data_id as DATA_ID,
+      d.data_repl_num as DATA_REPL_NUM,
+      d.data_size as DATA_SIZE,
+      d.data_is_dirty as DATA_IS_DIRTY,
+      d.data_checksum as DATA_CHECKSUM,
+      d.modify_ts as MODIFY_TS,
+      -- collname without the zone prefix
+      substr(c.coll_name,strpos(substr(c.coll_name,2),'/') + 1) as COLLNAME,
+      d.data_name as DATANAME,
+      d.data_path as DATAPATH,
+      r.resc_name as RESC_NAME,
+      r.resc_id as RESC_ID,
+      r.resc_def_path as VAULTDIR,
+      -- replica path without the vault dir prefix and without the basename
+      substr(d.data_path, 
+         length(r.resc_def_path)+1,  
+         length(d.data_path) - length(r.resc_def_path) - 1 
+           - position('/' in reverse(d.data_path)) + 1 ) as DIRNAME,
+      substr(d.data_path, 
+         length(d.data_path) - position('/' in reverse(d.data_path)) + 2 ) as BASENAME
+   from r_data_main d, r_coll_main c, r_resc_main r 
+   where 
+      d.resc_id = r.resc_id and d.coll_id = c.coll_id
+      -- filter out s3 and other resources where directory and coll_name are not kept in sync
+      and r.resc_type_name like 'unix%file%system'
+      -- filter out replicas with data_paths outside the vault
+      and starts_with(d.data_path, r.resc_def_path)
+      -- optionally limit results using extra condition 
+      {} -- extra condition
+   ) as replicas
+ where replicas.COLLNAME <> replicas.DIRNAME 
+   or replicas.DATANAME <> replicas.BASENAME
+    """.format(conditional)
+
+    replicas = []
+    try:
+        with icat_connection.cursor() as cur:
+            if data_id:
+                cur.execute(query, (data_id,))
+            else :
+                cur.execute(query)
+            for row in icat_connection.iter_row(cur):
+                actual_count = count_other_replicas_with_same_data_path(
+                   icat_connection,
+                   row[1],  # data_id
+                   row[2],  # data_repl_num
+                   row[9])  # 'actual' data_path
+                expected_count = count_other_replicas_with_same_data_path(
+                   icat_connection,
+                   row[1],  # data_id
+                   row[2],  # data_repl_num
+                   row[8])  # 'expected' data_path
+                out = row + ( actual_count > 0, expected_count > 0 )
+              #  print(row[1])
+                replicas.append(out)
+
+    except(Exception) as error:
+        print_stderr(error)
+        return []
+
+    return replicas
+
+
+def count_other_replicas_with_same_data_path(icat_connection, data_id, data_repl_num, data_path):
+    query = """
+    select count(*) from r_data_main d, r_resc_main r
+    where (d.data_id <> %s or d.data_repl_num <> %s)
+    and d.resc_id = r.resc_id
+    and d.data_path = %s
+    -- limit results to same host
+    and r.resc_net = (
+       select rs.resc_net 
+       from r_resc_main rs, r_data_main ds 
+       where rs.resc_id = ds.resc_id 
+       and ds.data_id = %s
+       and ds.data_repl_num = %s
+       ) 
+    """
+
+    replica_count = None
+    try:
+        with icat_connection.cursor() as cur:
+            cur.execute(query, (data_id, data_repl_num, data_path, data_id, data_repl_num))
+            row = cur.fetchone()
+            replica_count = row[0]
+    except(Exception) as error:
+        print_stderr(error)
+        return 0
+
+    return replica_count
+
+
 
 
 

@@ -182,12 +182,12 @@ from (
                    icat_connection,
                    row[1],  # data_id
                    row[2],  # data_repl_num
-                   row[9])  # 'actual' data_path
+                   row[8])  # 'actual' data_path
                 expected_count = count_other_replicas_with_same_data_path(
                    icat_connection,
                    row[1],  # data_id
                    row[2],  # data_repl_num
-                   row[8])  # 'expected' data_path
+                   row[9])  # 'expected' data_path
                 out = row + ( actual_count > 0, expected_count > 0 )
               #  print(row[1])
                 replicas.append(out)

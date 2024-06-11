@@ -71,3 +71,14 @@ def bash_squote(s):
     The resulting string can be used as an argument to commands in a Linux bash script
     """
     return "'" + s.replace("'","'\\''") + "'"
+
+
+def csv_dquote(s):
+    """
+    Returns a double quote delimited string.
+    Any double quote inside the string is transformed to two double quotes, in
+    line with RFC4180. The resulting string can be used as a field in a CSV file.
+    """
+    return '"' + s.replace('"', '""') + '"'
+
+

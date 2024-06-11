@@ -189,7 +189,6 @@ from (
                    row[2],  # data_repl_num
                    row[9])  # 'expected' data_path
                 out = row + ( actual_count > 0, expected_count > 0 )
-              #  print(row[1])
                 replicas.append(out)
 
     except(Exception) as error:

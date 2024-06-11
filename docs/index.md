@@ -81,6 +81,10 @@ replicas. This should greatly assist to prevent any new occurrences of
 inconsistent paths.  
 
 ## find\_orphans
+*We have run this program on a system with 70 million replicas.
+Execution time was 7 hours on iRODS Provider. We compared with iscan, 
+execution time was 41 hours.*
+
 This program performs two functions, much similar to,
 yet typically faster than, the icommand "iscan":
 

@@ -7,7 +7,7 @@ It assists the iRODS system administrator in localizing any issues with persiste
 Types of issues it can locate:
 - Hardlinked data object - a data object that has more than one logical name
 - Softlinked replicas - replicas that reference the same data file   
-- Odd physical paths - data files having a path not equiavlent to the logical path    
+- Odd physical paths - data files having a path not equivalent to the logical path    
 - Orphaned data files - data files in iRODS vaults that are not registered in the ICAT
 - Orphaned replicas - replicas that reference a data file that is inaccessible/does not exist
 

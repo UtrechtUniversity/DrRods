@@ -12,8 +12,9 @@ This logical name is registered with each replica of the data object.
 On our production zones, we have encountered a few isolated cases 
 where some of the replicas
 of a single data object have a different logical name. 
-We will refer to phenomenon as a hardlinked data object, since the data object
-identifies itself by more than one name, hence has aliases.
+We will refer to this phenomenon as a hardlinked data object, 
+since the data object
+identifies itself by more than one name (has aliases).
 
 Hence an "ils" command may show 2 data objects while in fact there is
 just one. In practice, this may lead to unexpected behavior when the 
@@ -32,8 +33,9 @@ a new destination data object, and then trim the replicas listed
 under the same alias name in the source object.  Make sure to also copy
 the metadata (imeta) and authorizations (ichmod). 
 
-Note that in case of overlapping replica numbers, an attempt to unregister
-a replica by replica number might fail. 
+Note that in case of overlapping replica numbers (yes we have encountered 
+such a case), 
+an attempt to unregister a replica by replica number might fail. 
 
 
 ## find\_inconsistent\_paths

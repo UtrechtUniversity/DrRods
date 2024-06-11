@@ -47,8 +47,13 @@ Install DrRods tools
 git clone https://github.com/UtrechtUniversity/DrRods.git
 ```
 
-Create a textfile named *database.ini* in the directory where the DrRods tools reside.
-Its content should be structured like this:
+Create a textfile named *database.ini* and place it in the DrRods/src 
+directory where the DrRods tools reside. Adapt its content to meet
+your configuration (use values as defined in the file 
+/etc/irods/server\_config.json in the section 
+plugin\_configuration-\>authentication-\>database).
+
+The textfile content should be structured like this:
 ```
     [postgresql]
     db_username=irodsdatabaseuser

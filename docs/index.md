@@ -1,5 +1,8 @@
 # Index to DrRods tools
-To learn the syntax of a program, invoke it with option _-h_.
+To learn the syntax of each program, invoke the program with option _-h_.   
+Most programs will need to be run on an iRODS Provider Server, or on
+another system that has connectivity to the PostgreSQL Server that carries
+the ICAT database.
 
 ## find\_hardlinks
 *We have run this program on a system with 70 million replicas.
@@ -79,7 +82,7 @@ inconsistent paths.
 
 ## find\_orphans
 This program performs two functions, much similar to,
-yet tyupically faster than, the icommand "iscan":
+yet typically faster than, the icommand "iscan":
 
 - It locates _orphan data files_, files that are located in the resource vault
 yet not registered in the ICAT database.
@@ -90,12 +93,19 @@ The program caches information retrieved from the ICAT in a memory database,
 and compares the replica attribute "data\_path" to see if the referenced
 data file exists. 
 
+Note that this program needs access to both the ICAT database as well as 
+the resource vaults. Therefore it needs to run on the iRODS provider and 
+the iRODS consumer servers (seperately). In case there is no network 
+connection allowed from an iRODS Consumer to the PostgreSQL database server
+one can use the option to export/import cached ICAT data and transport 
+the export file to the iRODS Consumer Server..
+
 A list of orphan replicas is saved in a binary file, suitable for postprocessing
 by the program *unregister_orphaned_replicas*.   
 NB: Actually, rather than a replica name and number, the content of the 
 attribute data\_path is stored.
 
-A list of orphan data files is saved in another binary file. A pragram to
+A list of orphan data files is saved in another binary file. A program to
 postprocess this list will be developed.
 
 ## unregister\_orphaned\_replicas

@@ -16,8 +16,8 @@ The toolset only uses SQL queries that can execute
 relatively fast on a large iRODS ICAT database, and it keeps track of file paths via an efficient
 in-memory data structure.
 
-Link to [More detailed descriptions](./docs/index.md) (per program 
-explanation of purpose and caveats). 
+See [more detailed descriptions](./docs/index.md) for an explanation of the 
+purpose and caveats related to each program. 
 
 ## Installation
 The tools can be installed on an iRODS provider server.

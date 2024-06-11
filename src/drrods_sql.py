@@ -120,7 +120,10 @@ def inconsistent_paths_columns():
         'hostname','data_id','data_repl_num','data_size','data_is_dirty',
         'data_checksum','modify_ts','resc_name','actual_data_path','expected_data_path',
         # columns from count_other_replicas_with_same_data_path:
-        'actual_linked_use','expected_linked_use'
+        'actual_linked_use','expected_linked_use',
+        # extra column that can be used to indicate processing status
+        # initial values will be "NO"
+        'processed'
         ]
 
 def inconsistent_paths(icat_connection, data_id = None):
@@ -188,7 +191,8 @@ from (
                    row[1],  # data_id
                    row[2],  # data_repl_num
                    row[9])  # 'expected' data_path
-                out = row + ( actual_count > 0, expected_count > 0 )
+                processed = "NO"
+                out = row + ( actual_count > 0, expected_count > 0, processed)
                 replicas.append(out)
 
     except(Exception) as error:

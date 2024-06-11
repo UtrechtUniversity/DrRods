@@ -6,7 +6,8 @@ It assists the iRODS system administrator in localizing any issues with persiste
 
 Types of issues it can locate:
 - Hardlinked data object - a data object that has more than one logical name
-- Softlinked replicas - replicas that reference the same data file
+- Softlinked replicas - replicas that reference the same data file   
+- Odd physical paths - data files having a path not equiavlent to the logical path    
 - Orphaned data files - data files in iRODS vaults that are not registered in the ICAT
 - Orphaned replicas - replicas that reference a data file that is inaccessible/does not exist
 
@@ -15,7 +16,8 @@ The toolset only uses SQL queries that can execute
 relatively fast on a large iRODS ICAT database, and it keeps track of file paths via an efficient
 in-memory data structure.
 
-The toolset is described in more detail [here](./docs/index.md)
+Link to [More detailed descriptions](./docs/index.md) (per program 
+explanation of purpose and caveats). 
 
 ## Installation
 The tools can be installed on an iRODS provider server.

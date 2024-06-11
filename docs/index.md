@@ -77,8 +77,45 @@ Nowadays iRODS provides for logical locking of data objects and their
 replicas. This should greatly assist to prevent any new occurrences of 
 inconsistent paths.  
 
-###
-On a system with 70M replicas, 
-  
- 
+## find\_orphans
+This program performs two functions, much similar to,
+yet tyupically faster than, the icommand "iscan":
+
+- It locates _orphan data files_, files that are located in the resource vault
+yet not registered in the ICAT database.
+- It locates _orphan replicas_, replicas that reference a data file that
+no longer exists or is otherwise inaccessible.
+
+The program caches information retrieved from the ICAT in a memory database,
+and compares the replica attribute "data\_path" to see if the referenced
+data file exists. 
+
+A list of orphan replicas is saved in a binary file, suitable for postprocessing
+by the program *unregister_orphaned_replicas*.   
+NB: Actually, rather than a replica name and number, the content of the 
+attribute data\_path is stored.
+
+A list of orphan data files is saved in another binary file. A pragram to
+postprocess this list will be developed.
+
+## unregister\_orphaned\_replicas
+This program takes a binary input file as produced by the *find\_orphans*
+program, and creates a bash script with iunreg commands for those replicas.
+The iRODS System Administrator can execute this bash script to clean
+up the orphan replicas.
+
+Replicas may be (or become) in-flight. 
+The program implements two safety precautions against touching such replicas:
+1) In-flight replicas are skipped during the creation of the bash script.
+2) Also the iunreg commands in the bash script will carry an -age option,
+to prevent operations on replicas modified less than a day ago.
+
+
+## Supporting Python Modules
+Supporting Python modules are:
+- *icat* (class) handles the connection to a PostgreSQL database.   
+- *pathdb* (class) manages an in-memory database of pathnames   
+- *drrods_sql* (functions) provides functions to retrieve ICAT data   
+- *drrods_common* (globals/functions) provide utility functions used across the tools
+
 

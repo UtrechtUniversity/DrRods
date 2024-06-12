@@ -74,7 +74,7 @@ by an entirely different data object.
 Note that this situation could lead to data loss: 
 When a user deletes one of the 
 involved data objects, then the linked replica of the other data object can no
-longer access its data file, evn though it may appear to be 'good'.. 
+longer access its data file, evn though it may appear to be 'good'. 
 
 Nowadays iRODS provides for logical locking of data objects and their
 replicas. This should greatly assist to prevent any new occurrences of 
@@ -83,8 +83,8 @@ inconsistent paths.
 ## find\_objects\_with\_diff\_replicas
 All good replicas of a data object should by definition have equivalent attributes.
 
-This program reports data objects that have good replicas yet where the attributes 
-vary from one replica to another 
+This program reports data objects that have multiple good replicas yet where the attributes 
+vary from one replica to another.
 The attributes being compared are data\_type, data\_size, and data\_owner 
 (including data\_owner\_zone).  
  

@@ -74,7 +74,7 @@ by an entirely different data object.
 Note that this situation could lead to data loss: 
 When a user deletes one of the 
 involved data objects, then the linked replica of the other data object can no
-longer access its data file, evn though it may appear to be 'good'. 
+longer access its data file, even though it may appear to be 'good'. 
 
 Nowadays iRODS provides for logical locking of data objects and their
 replicas. This should greatly assist to prevent any new occurrences of 

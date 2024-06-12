@@ -82,8 +82,8 @@ class Icat(object):
             for row in rows:
                 yield row
 
-    def cursor(self):
-        return self._connection.cursor()
+    def cursor(self, name = None):
+        return self._connection.cursor(name)
 
 
     def _load_config(self, filepath, section):

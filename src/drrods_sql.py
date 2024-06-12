@@ -33,7 +33,7 @@ and r.resc_net = %s
     db = pathdb.Pathdb()
     replica_count = 0
     try:
-        with icat_connection.cursor() as cur:
+        with icat_connection.cursor('server_side_cursor') as cur:
             cur.execute(query, (hostname,))
             for row in icat_connection.iter_row(cur):
                 db.register(row[0])
@@ -51,7 +51,7 @@ select distinct data_id,coll_id,data_name from r_data_main
     db = {}
     linked = {}
     try:
-        with icat_connection.cursor() as cur:
+        with icat_connection.cursor('server_side_cursor') as cur:
             cur.execute(query)
             for row in icat_connection.iter_row(cur):
                 data_id = row[0] 
@@ -175,7 +175,7 @@ from (
 
     replicas = []
     try:
-        with icat_connection.cursor() as cur:
+        with icat_connection.cursor('server_side_cursor') as cur:
             if data_id:
                 cur.execute(query, (data_id,))
             else :
@@ -242,7 +242,7 @@ def objects_with_replicas_that_vary(icat_connection):
     """
     data_objects = []
     try:
-        with icat_connection.cursor() as cur:
+        with icat_connection.cursor('serverside_cursor') as cur:
             cur.execute(query)
             data_id = ''
             ref = None

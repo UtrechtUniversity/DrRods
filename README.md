@@ -8,6 +8,7 @@ Types of issues it can locate:
 - Hardlinked data object - a data object that has more than one logical name
 - Softlinked replicas - replicas that reference the same data file   
 - Odd physical paths - data files having a path not equivalent to the logical path    
+- Odd replica attributes - data object where attributes of good replicas are not the same
 - Orphaned data files - data files in iRODS vaults that are not registered in the ICAT
 - Orphaned replicas - replicas that reference a data file that is inaccessible/does not exist
 

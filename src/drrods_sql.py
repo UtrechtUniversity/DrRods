@@ -231,6 +231,54 @@ def count_other_replicas_with_same_data_path(icat_connection, data_id, data_repl
     return replica_count
 
 
+def objects_with_replicas_that_vary(icat_connection):
+    query = """
+    select d.data_id, d.data_repl_num, d.data_name, c.coll_name, 
+    d.data_type_name, d.data_size, d.data_owner_name, d.data_owner_zone
+    from r_data_main d, r_coll_main c
+    where d.coll_id = c.coll_id
+    and d.data_is_dirty = '1'
+    order by data_id
+    """
+    data_objects = []
+    try:
+        with icat_connection.cursor() as cur:
+            cur.execute(query)
+            data_id = ''
+            ref = None
+            problems = {}
+            for row in icat_connection.iter_row(cur):
+                if data_id != row[0] :
+                    # start of a new data object
+                    if len(problems) > 0 :
+                        # register problems found at previous data object
+                        data_objects.append( (data_id, ref[3], ref[2], list(problems.keys()) ) ) 
+                        problems = {}
+
+                    # register attributes of first replica, will serve as reference
+                    data_id = row[0]
+                    ref = row
+                    continue
+                
+                # this must be a next replica of the same data object
+                # check if attributes are equal to those of first replica
+                if row[4] != ref[4] :
+                    problems['data_type'] = True
+                if row[5] != ref[5] :
+                    problems['data_size'] = True
+                if row[6] != ref[6] or row[7] != ref[7] :
+                   problems['data_owner'] = True
+                    
+            if len(problems) > 0 :
+                # register problems found at previous data object
+                data_objects.append( (data_id, ref[3], ref[2], list(problems.keys()) ) ) 
+
+    except(Exception) as error:
+        print_stderr(error)
+        return []
+
+    return data_objects
+
 
 
 

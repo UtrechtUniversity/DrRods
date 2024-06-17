@@ -133,6 +133,15 @@ The program implements two safety precautions against touching such replicas:
 2) Also the iunreg commands in the bash script will carry an -age option,
 to prevent operations on replicas modified less than a day ago.
 
+## rm\_orphaned\_files
+Like the above program, this program takes a binary input file as produced
+by the *find\_orphans* program. It creates a bash script with commands
+to delete these (orphan) data files. The iRODS System Administrator can 
+execute this bash script to clean up the orphan data files.
+
+To prevent accidental deletion of recently modified data files, the script
+uses a Linux *find -delete* command instead of *rm* and selects only files that have
+a modified time of at least 1 day ago.
 
 ## Supporting Python Modules
 Supporting Python modules are:

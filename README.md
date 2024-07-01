@@ -58,7 +58,7 @@ the iRODS server configuration and creates the *database.ini* file for you.
 
 Create *databse.ini* file using setup.py:
 ```
-cd src
+cd DrRods/src
 python3 setup.py
 ```
 

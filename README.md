@@ -48,13 +48,22 @@ Install DrRods tools
 git clone https://github.com/UtrechtUniversity/DrRods.git
 ```
 
-Create a textfile named *database.ini* and place it in the DrRods/src 
-directory where the DrRods tools reside. Adapt its content to meet
-your configuration (use values as defined in the file 
-/etc/irods/server\_config.json in the section 
-plugin\_configuration-\>authentication-\>database).
+The DrRods tools use a configuration file *database.ini* to locate
+information neede to access the iRODS ICAT database. 
+This file must be created by the user in the directory *src*, where the 
+DrRods tools are located.
 
-The textfile content should be structured like this:
+The program *setup.py* extract the connectivity details from
+the iRODS server configuration and creates the *database.ini* file for you.
+
+Create *databse.ini* file using setup.py:
+```
+cd src
+python3 setup.py
+```
+
+Alternatively, you can manually create the *database.ini* file. 
+The textfile content must be structured like this:
 ```
     [postgresql]
     db_username=irodsdatabaseuser
@@ -63,6 +72,5 @@ The textfile content should be structured like this:
     db_port=5432
     db_name=ICAT
 ```
-The toolset will use this information whenever it seeks to connect to the PostgreSQL database.
-
+That's it, you are now ready to check your iRODS data. 
 

@@ -68,7 +68,7 @@ def main(cmd):
 
         target_host = localhost
         if cmd._host:
-            target_host = cmd._host
+            target_host = cmd._host[0]
 
         print('Retrieving data on host {} from ICAT database'.format(target_host))
         db = retrieve_icat_data_from_database(connection, target_host)

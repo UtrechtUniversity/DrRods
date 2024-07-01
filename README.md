@@ -49,14 +49,15 @@ git clone https://github.com/UtrechtUniversity/DrRods.git
 ```
 
 The DrRods tools use a configuration file *database.ini* to locate
-information neede to access the iRODS ICAT database. 
+information needed to access the iRODS ICAT database. 
 This file must be created by the user in the directory *src*, where the 
 DrRods tools are located.
 
 The program *setup.py* extract the connectivity details from
-the iRODS server configuration and creates the *database.ini* file for you.
+the iRODS server configuration file */etc/irods/server_config.json* 
+and creates the *database.ini* file for you.
 
-Create *databse.ini* file using setup.py:
+Create *database.ini* file using setup.py:
 ```
 cd DrRods/src
 python3 setup.py
@@ -72,5 +73,8 @@ The textfile content must be structured like this:
     db_port=5432
     db_name=ICAT
 ```
-That's it, you are now ready to check your iRODS data. 
+Adapt the above values to reflect the information as found in the iRODS server
+configuration file.
+
+That's it, you are now ready to explore the health of your iRODS database. 
 

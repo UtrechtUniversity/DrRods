@@ -6,7 +6,7 @@ the ICAT database.
 
 ## find\_hardlinks
 *We have run this program on a system with 70 million replicas.
-Execution time was 12 minutes, internal memory usage 14 GB.*
+Execution time was 12 minutes.*
 
 iRODS expects data object to be addressable via only a single logical
 name (which is the combination COLL\_NAME/DATA\_NAME).
@@ -43,7 +43,7 @@ an attempt to unregister a replica by replica number might fail.
 
 ## find\_inconsistent\_paths
 *We have run this program on a system with 70 million replicas.
-Execution time was 25 minutes, internal memory usage 1500 MB.*
+Execution time was 25 minutes.*
 
 Unless the storage system is less suited to accomodate this, iRODS will
 attempt to create and maintain a directory structure for data files that 

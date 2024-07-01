@@ -41,6 +41,7 @@ def retrieve_icat_data_from_database(connection, host):
     db['vaults'] = drrods_sql.resource_vault_dirs_for_host(connection, host)
     (db['replica_count'], db['replica_data_paths']) = drrods_sql.replica_paths_for_host(connection, host) 
     if not db['vaults'] or not db['replica_data_paths']:
+        print("Error: Unable to retrieve data on {} from ICAT".format(host))
         db = None
     return db
 
@@ -74,6 +75,7 @@ def main(cmd):
         db = retrieve_icat_data_from_database(connection, target_host)
 
     if not db:
+        print('No data available, unable to continue')
         sys.exit(1)
 
     # (2) inform the user of data that has been loaded or retrieved

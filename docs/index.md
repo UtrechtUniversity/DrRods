@@ -4,6 +4,13 @@ Most programs will need to be run on an iRODS Provider Server, or on
 another system that has connectivity to the PostgreSQL Server that carries
 the ICAT database.
 
+Important: **The DrRods tools will NOT make any modifications to your iRODS
+system.** In most cases, the tools will output a file that contains
+an analysis report.
+In some cases the output is a bash script that an iRODS administrator
+may decide to use to make actual changes to her iRODS system.
+
+
 ![Overview](./overview_diagram.png)
 
 ## find\_hardlinks

@@ -42,7 +42,7 @@ def rm_file(path, dryrun=True):
     if not dryrun:
         del_flag = '-delete'
     return '''
-find {} -mxdepth 0 -type f -mtime +1 -print {}
+find {} -maxdepth 0 -type f -mtime +1 -print {}
 '''.format(esc_path, del_flag)
 
 

@@ -4,6 +4,8 @@ Most programs will need to be run on an iRODS Provider Server, or on
 another system that has connectivity to the PostgreSQL Server that carries
 the ICAT database.
 
+![Overview](./overview_diagram.png)
+
 ## find\_hardlinks
 *We have run this program on a system with 70 million replicas.
 Execution time was 12 minutes.*

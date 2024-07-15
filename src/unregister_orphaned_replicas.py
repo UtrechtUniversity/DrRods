@@ -40,7 +40,7 @@ def unreg_cmd(replica, scope = 'replica', options='--dryrun'):
     if scope == 'object':
         return "iunreg --age {} {} {}".format(age, options, obj)
 
-    return "iunreg -n {} -N 0 --age {} {} {}".format(data_repl_num, age, options, obj) 
+    return "iunreg -n {} -N 1 --age {} {} {}".format(data_repl_num, age, options, obj) 
 
 
 

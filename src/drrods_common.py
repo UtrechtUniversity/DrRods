@@ -1,4 +1,4 @@
-#!/bin/python
+#!/bin/python3
 # 2024 by Ton Smeele, Utrecht University
 
 import sys

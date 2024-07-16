@@ -3,6 +3,7 @@
 
 # Warning: The pickle module is not secure (remote code injection risk).
 #          Do not load any data from files created by other tools!
+#          We use pickle because its binary encoding is efficient for sizeable dicts.
 
 import sys
 import socket

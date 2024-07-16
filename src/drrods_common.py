@@ -1,6 +1,9 @@
 #!/bin/python3
 # 2024 by Ton Smeele, Utrecht University
 
+# Warning: The pickle module is not secure (remote code injection risk).
+#          Do not load any data from files created by other tools!
+
 import sys
 import socket
 import contextlib

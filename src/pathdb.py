@@ -2,7 +2,11 @@
 # 2024 by Ton Smeele, Utrecht University
 #
 
+# Warning: The pickle module is not secure. Only unpickle data you trust!
+#          Use jdump and jload instead of dump and load for untrusted data.
+
 import pickle
+import json
 
 
 class Pathdb(object):
@@ -73,6 +77,13 @@ class Pathdb(object):
         with open(filename, 'rb') as f:
             self._root = pickle.load(f)
 
+    def jdump(self, filename):
+        with open(filename, 'wt') as f:
+            json.dump(self._root, f)
+
+    def jload(self, filename):
+        with open(filename, 'rt') as f:
+            self._root = json.load(f)
 
 if __name__ == "__main__":
     # unit test and usage example
@@ -87,9 +98,12 @@ if __name__ == "__main__":
         print('visit: {}'.format(item))
     print('dump db in file')
     db.dump('/tmp/pathdb-dumpfile.bin')
+    db.jdump('/tmp/pathdb-dumpfile.json')
     print('empty db')
     db.root = {}
     print(db)
     print('load db from file')
     db.load('/tmp/pathdb-dumpfile.bin')
+    print(db)
+    db.jload('/tmp/pathdb-dumpfile.json')
     print(db)

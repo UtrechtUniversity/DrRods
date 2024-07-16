@@ -123,12 +123,12 @@ one can use the option to export/import cached ICAT data and transport
 the export file to the iRODS Consumer Server..
 
 A list of orphan replicas is saved in a binary file, suitable for postprocessing
-by the program *unregister_orphaned_replicas*.   
+by the program *unregister\_orphaned\_replicas*.   
 NB: Actually, rather than a replica name and number, the content of the 
 attribute data\_path is stored.
 
-A list of orphan data files is saved in another binary file. A program to
-postprocess this list will be developed.
+A list of orphan data files is saved in another binary file. This output
+can be postprocessed by the program *rm\_orphaned\_files*.
 
 ## unregister\_orphaned\_replicas
 This program takes a binary input file as produced by the *find\_orphans*

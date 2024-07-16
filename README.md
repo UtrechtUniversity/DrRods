@@ -53,7 +53,7 @@ information needed to access the iRODS ICAT database.
 This file must be created by the user in the directory *src*, where the 
 DrRods tools are located.
 
-The program *setup.py* extract the connectivity details from
+The program *setup.py* extracts the connectivity details from
 the iRODS server configuration file */etc/irods/server_config.json* 
 and creates the *database.ini* file for you.
 

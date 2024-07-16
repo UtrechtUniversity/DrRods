@@ -85,7 +85,7 @@ When a user deletes one of the
 involved data objects, then the linked replica of the other data object can no
 longer access its data file, even though it may appear to be 'good'. 
 
-Nowadays iRODS provides for logical locking of data objects and their
+iRODS release 4.2.9+ provides for logical locking of data objects and their
 replicas. This should greatly assist to prevent any new occurrences of 
 inconsistent paths. 
 
@@ -100,8 +100,8 @@ The attributes being compared are data\_type, data\_size, and data\_owner
 
 ## find\_orphans
 *We have run this program on a system with 70 million replicas.
-Execution time was 7 hours on iRODS Provider. We compared with iscan, 
-execution time was 41 hours.*
+Execution time was 7 hours on the iRODS Provider. The execution time
+of a run on the same system using iscan was 41 hours.*
 
 This program performs two functions, much similar to,
 yet typically faster than, the icommand "iscan":
@@ -112,12 +112,12 @@ yet not registered in the ICAT database.
 no longer exists or is otherwise inaccessible.
 
 The program caches information retrieved from the ICAT in a memory database,
-and compares the replica attribute "data\_path" to see if the referenced
+and uses the replica attribute "data\_path" to see if the referenced
 data file exists. 
 
 Note that this program needs access to both the ICAT database as well as 
 the resource vaults. Therefore it needs to run on the iRODS provider and 
-the iRODS consumer servers (seperately). In case there is no network 
+the iRODS consumer servers (separately). In case there is no network 
 connection allowed from an iRODS Consumer to the PostgreSQL database server
 one can use the option to export/import cached ICAT data and transport 
 the export file to the iRODS Consumer Server..

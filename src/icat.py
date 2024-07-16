@@ -5,13 +5,14 @@ import configparser
 import psycopg
 import sys
 
-CONFIG_PATH='./database.ini'
+CONFIG_PATH = './database.ini'
+
 
 class Icat(object):
     """
     Icat handles the connection with a PostgresSQL based iRODS ICAT database
 
-    Use this class as follows: 
+    Use this class as follows:
 
     db = Icat()
     if not db.is_connected():
@@ -25,8 +26,8 @@ class Icat(object):
        print(error)
 
     Icat uses details from a configuration file '{}' to connect
-    to a PostgreSQL database. 
-    The configuration file must be formatted as a textfile 
+    to a PostgreSQL database.
+    The configuration file must be formatted as a textfile
     consisting of sections that have key/value pairs according to
     the following example:
 
@@ -39,20 +40,22 @@ class Icat(object):
 
     """.format(CONFIG_PATH)
 
-    def __init__(self, path = CONFIG_PATH):
+    def __init__(self, path=CONFIG_PATH):
         self._connection = None
         self._name = "Not connected to a database"
         try:
             config = self._load_config(path, 'postgresql')
             target = "'{}' at {}".format(config['db_name'], config['db_host'])
             self._connection = psycopg.connect(
-                user     = config['db_username'],
-                password = config['db_password'],
-                host     = config['db_host'],
-                port     = config['db_port'],
-                dbname   = config['db_name'])
+                user=config['db_username'],
+                password=config['db_password'],
+                host=config['db_host'],
+                port=config['db_port'],
+                dbname=config['db_name'])
         except (psycopg.DatabaseError, Exception) as error:
-            sys.stderr.write("Error while connecting to PostgreSQL database {}:\n{}\n".format(target, error))
+            sys.stderr.write(
+                "Error while connecting to PostgreSQL database {}:\n{}\n"
+                .format(target, error))
             return
 
         self._name = "Connected to database {}".format(target)
@@ -60,14 +63,14 @@ class Icat(object):
     def __del__(self):
         try:
             self._connection.close()
-        except:
+        except (psycopg.DatabaseError):
             pass
 
     def __repr__(self):
         return self.__str__()
 
     def __str__(self):
-        return self._name 
+        return self._name
 
     def is_connected(self):
         if (self._connection is None):
@@ -82,9 +85,8 @@ class Icat(object):
             for row in rows:
                 yield row
 
-    def cursor(self, name = None):
+    def cursor(self, name=None):
         return self._connection.cursor(name)
-
 
     def _load_config(self, filepath, section):
         parser = configparser.ConfigParser()
@@ -100,4 +102,3 @@ if __name__ == "__main__":
     # execute connectivity test
     connection = Icat()
     print(connection)
-

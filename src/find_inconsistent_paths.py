@@ -4,11 +4,12 @@
 import sys
 import argparse
 
-from drrods_common import *
+from drrods_common import print_stderr, open_w, csv_dquote
 import drrods_sql
 import icat
 
 CSV_SEPARATOR = ';'
+
 
 def main(outputfile):
     if not outputfile:
@@ -20,7 +21,7 @@ def main(outputfile):
 
     replicas = drrods_sql.inconsistent_paths(connection)
 
-    print_stderr("{} replicas found".format(len(replicas)) )
+    print_stderr("{} replicas found".format(len(replicas)))
     if len(replicas) == 0:
         sys.exit(0)
 
@@ -30,13 +31,13 @@ def main(outputfile):
         for field in drrods_sql.inconsistent_paths_columns():
             f.write(separator + csv_dquote(field))
             separator = CSV_SEPARATOR
-        f.write('\n')            
-        
+        f.write('\n')
+
         # CSV content lines
         for r in replicas:
             separator = ''
             for field in r:
-                f.write(separator + csv_dquote(str(field)) )
+                f.write(separator + csv_dquote(str(field)))
                 separator = CSV_SEPARATOR
             f.write('\n')  # NB: we deviate from RFC4180 which requires \r\n
 
@@ -45,10 +46,12 @@ def main(outputfile):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-            description = 'Finds replicas which have a data_path that is not equivalent to the logical path. Does not report replicas with a data_path *outside* the vault.')
-    parser.add_argument('outputfile', nargs='?', metavar='<outputfile>|"-"',
-            help = 'output data to a csv-formatted file')
+            description='''
+Finds replicas which have a data_path that is not equivalent to the
+logical path. Does not report replicas with a data_path *outside*
+the vault.''')
+    parser.add_argument(
+            'outputfile', nargs='?', metavar='<outputfile>|"-"',
+            help='output data to a csv-formatted file')
     cmd = parser.parse_args()
-
     main(cmd.outputfile)
-

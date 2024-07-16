@@ -19,7 +19,7 @@ def localhost_name():
 @contextlib.contextmanager
 def open_w(filepath):
     """
-    Returns (for write actions) a file handle to a textfile. 
+    Returns (for write actions) a file handle to a textfile.
     Returns stdout if the argument is a dash.
     """
     if filepath and filepath != '-':
@@ -42,12 +42,14 @@ def load_dict(filepath, signature='default'):
     except (Exception) as error:
         print_stderr(error)
         return None
-    
+
     if 'signature' in db and db['signature'] == signature:
         return db['dict_object']
 
-    print_stderr('Error: File content does not meet expected signature (' + filepath + ')')
+    print_stderr('Error: File content does not meet expected signature ('
+                 + filepath + ')')
     return None
+
 
 def dump_dict(filepath, dict_object, signature='default'):
     db = {}
@@ -59,26 +61,26 @@ def dump_dict(filepath, dict_object, signature='default'):
         pickle.dump(db, f)
 
 
-
 def print_stderr(text):
     sys.stderr.write(str(text) + '\n')
 
+
 def bash_squote(s):
     """
-    Returns a single quote delimited string. 
-    Any single quote inside the string is transformed to a backslash-escaped quote that
-    itself is delimited by single quotes.
-    The resulting string can be used as an argument to commands in a Linux bash script
+    Returns a single quote delimited string.
+    Any single quote inside the string is transformed to a
+    backslash-escaped quote that itself is delimited by single quotes.
+    The resulting string can be used as an argument to commands
+    in a Linux bash script
     """
-    return "'" + s.replace("'","'\\''") + "'"
+    return "'" + s.replace("'", "'\\''") + "'"
 
 
 def csv_dquote(s):
     """
     Returns a double quote delimited string.
     Any double quote inside the string is transformed to two double quotes, in
-    line with RFC4180. The resulting string can be used as a field in a CSV file.
+    line with RFC4180. The resulting string can be used as a field
+    in a CSV file.
     """
     return '"' + s.replace('"', '""') + '"'
-
-

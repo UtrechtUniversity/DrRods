@@ -4,6 +4,7 @@
 
 import pickle
 
+
 class Pathdb(object):
     """
     Pathdb maintains an in-memory database of pathnames.
@@ -28,7 +29,7 @@ class Pathdb(object):
             if path[item] != {}:
                 yield from self._visit(prefix + item + '/', path[item])
             else:
-                yield prefix + item 
+                yield prefix + item
 
     def size(self):
         count = 0
@@ -41,7 +42,7 @@ class Pathdb(object):
         if parts[0] == '':
             # if path started with '/' it will have an extra empty component
             return parts[1:]
-        return parts    
+        return parts
 
     def register(self, path):
         if path is None or path == '':
@@ -73,9 +74,8 @@ class Pathdb(object):
             self._root = pickle.load(f)
 
 
-
 if __name__ == "__main__":
-    # unit test and usage example 
+    # unit test and usage example
     db = Pathdb()
     db.register('/a')
     db.register('/a/b')
@@ -93,5 +93,3 @@ if __name__ == "__main__":
     print('load db from file')
     db.load('/tmp/pathdb-dumpfile.bin')
     print(db)
-
-

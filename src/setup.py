@@ -10,11 +10,12 @@ SOURCEFILE = '/etc/irods/server_config.json'
 try:
     with open(SOURCEFILE, 'rt') as f:
         irods_data = json.load(f)
-except:
+except (OSError):
     print("Unable to open source file '{}'".format(SOURCEFILE))
     sys.exit(1)
 
-print("iRODS server database configuration read from file '{}'".format(SOURCEFILE))
+print("iRODS server database configuration read from file '{}'"
+      .format(SOURCEFILE))
 
 data = irods_data['plugin_configuration']['database']['postgres']
 
@@ -26,11 +27,8 @@ try:
         f.write("db_name={}\n".format(data['db_name']))
         f.write("db_username={}\n".format(data['db_username']))
         f.write("db_password={}\n".format(data['db_password']))
-except:
+except (OSError):
     print("Unable to write configuration to file '{}'".format(CONFIGFILE))
     sys.exit(1)
 
 print("DrRods configuration written to file '{}'".format(CONFIGFILE))
-
-
-

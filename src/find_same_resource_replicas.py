@@ -15,7 +15,7 @@ def same_resource_replicas(icat_connection):
     select d.data_id, d.data_repl_num, c.coll_name, d.data_name, d.resc_id
     from r_data_main d, r_coll_main c
     where d.coll_id = c.coll_id
-    order by data_id, resc_id
+    order by data_id
     """
     data_objects = []
     try:
@@ -24,6 +24,7 @@ def same_resource_replicas(icat_connection):
             data_id = ''
             ref = None
             problems = {}
+            resources = {}
             for row in icat_connection.iter_row(cur):
                 if data_id != row[0]:
                     # start of a new data object
@@ -32,16 +33,19 @@ def same_resource_replicas(icat_connection):
                         data_objects.append(
                                 (data_id, ref[2], ref[3], list(problems.keys())))
                         problems = {}
+                    resources = {}
                     # register attributes of first replica
                     # will serve as reference
                     data_id = row[0]
+                    resources[row[4]] = True
                     ref = row
                     continue
                 # this must be the next replica of the same data object
                 # register problem if replica on same resource
-                if row[4] == ref[4]:
+                if row[4] in resources:
                     problems[row[4]] = True
                 else:
+                    reources[row[4]] = True
                     ref = row
             if len(problems) > 0:
                 # register problems found at last data object

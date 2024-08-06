@@ -45,7 +45,7 @@ def same_resource_replicas(icat_connection):
                 if row[4] in resources:
                     problems[row[4]] = True
                 else:
-                    reources[row[4]] = True
+                    resources[row[4]] = True
                     ref = row
             if len(problems) > 0:
                 # register problems found at last data object

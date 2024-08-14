@@ -96,7 +96,11 @@ This program reports data objects that have multiple good replicas yet where the
 vary from one replica to another.
 The attributes being compared are data\_type, data\_size, and data\_owner 
 (including data\_owner\_zone).  
- 
+
+## find\_same\_resource\_replicas 
+Each replica of a data object should reside on a separate resource.
+
+This program reports data objects that have more than one replica stored on the same resource.
 
 ## find\_orphans
 *We have run this program on a system with 70 million replicas.

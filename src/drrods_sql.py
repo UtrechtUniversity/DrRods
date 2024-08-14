@@ -289,6 +289,52 @@ def objects_with_replicas_that_vary(icat_connection):
 
     return data_objects
 
+def same_resource_replicas(icat_connection):
+    query = """
+    select d.data_id, d.data_repl_num, c.coll_name, d.data_name, d.resc_id
+    from r_data_main d, r_coll_main c
+    where d.coll_id = c.coll_id
+    order by data_id
+    """
+    data_objects = []
+    try:
+        with icat_connection.cursor('serverside_cursor') as cur:
+            cur.execute(query)
+            data_id = ''
+            ref = None
+            problems = {}
+            resources = {}
+            for row in icat_connection.iter_row(cur):
+                if data_id != row[0]:
+                    # start of a new data object
+                    if len(problems) > 0:
+                        # register problems found at previous data object
+                        data_objects.append(
+                                (data_id, ref[2], ref[3], list(problems.keys())))
+                        problems = {}
+                    resources = {}
+                    # register attributes of first replica
+                    # will serve as reference
+                    data_id = row[0]
+                    resources[row[4]] = True
+                    ref = row
+                    continue
+                # this must be the next replica of the same data object
+                # register problem if replica on same resource
+                if row[4] in resources:
+                    problems[row[4]] = True
+                else:
+                    resources[row[4]] = True
+                    ref = row
+            if len(problems) > 0:
+                # register problems found at last data object
+                data_objects.append(
+                        (data_id, ref[2], ref[3], list(problems.keys())))
+    except (Exception) as error:
+        print_stderr(error)
+        return []
+    return data_objects
+
 
 if __name__ == "__main__":
     pass

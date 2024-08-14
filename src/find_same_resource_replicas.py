@@ -5,7 +5,7 @@ import sys
 import argparse
 
 from drrods_common import print_stderr, open_w, csv_dquote
-from drrods_sql
+import drrods_sql
 import icat
 
 
@@ -15,7 +15,7 @@ def main(outputfile):
     if not connection.is_connected():
         sys.exit(1)
 
-    obj_list = same_resource_replicas(connection)
+    obj_list = drrods_sql.same_resource_replicas(connection)
     print_stderr(
         '{} data ojects with multiple replicas on same resource'.
         format(len(obj_list)))

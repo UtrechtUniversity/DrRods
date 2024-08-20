@@ -40,7 +40,7 @@ def main(rule_args, callback, rei):
         repl = row[2]
         status = row[3]
         #callback.writeLine("stdout", "{} -> {} {}".format(status, path, repl))
-        callback.writeLine("stdout", "iadmin modrepl logical path {} replica_number {} DATA_REPL_STATUS '0'".format(bash_escape(path), repl))
+        callback.writeLine("stdout", "iadmin modrepl logical_path {} replica_number {} DATA_REPL_STATUS 0".format(bash_escape(path), repl))
 
 
 INPUT *inp=foo

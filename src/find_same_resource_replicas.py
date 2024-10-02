@@ -9,7 +9,7 @@ import drrods_sql
 import icat
 
 
-def main(outputfile):
+def main(outputfile, brief):
     connection = icat.Icat()
     print_stderr(connection)
     if not connection.is_connected():
@@ -21,12 +21,16 @@ def main(outputfile):
         format(len(obj_list)))
     if len(obj_list) > 0:
         with open_w(outputfile) as f:
-            f.write('"data_id" ; "logical_path" ; "[attributes that vary]"\n')
+            if not brief:
+               f.write('"data_id" ; "logical_path" ; "[attributes that vary]"\n')
             for obj in obj_list:
                 (data_id, coll_name, data_name, problems) = obj
-                f.write(csv_dquote(str(data_id)) + '; ' +
-                        csv_dquote(coll_name + '/' + data_name) + '; ' +
-                        csv_dquote(str(problems)) + '\n')
+                if brief:
+                    f.write(str(data_id) + '\n')
+                else:
+                    f.write(csv_dquote(str(data_id)) + '; ' +
+                            csv_dquote(coll_name + '/' + data_name) + '; ' +
+                            csv_dquote(str(problems)) + '\n')
 
 
 if __name__ == "__main__":
@@ -36,10 +40,12 @@ if __name__ == "__main__":
 Finds data objects that have multiple replicas on the same resource.
 Optionally writes a list of these objects to an output file (or stdout).
         ''')
-
+    parser.add_argument(
+            '-b', '-brief', action='store_true', dest='brief',
+            help='list only the DATA_ID of the data object')
     parser.add_argument(
             'outputfile', nargs='?', metavar='<outputfile>|"-"',
             help='''
 output to file of a list of objects and resources used by multiple replicas''')
     cmd = parser.parse_args()
-    main(cmd.outputfile)
+    main(cmd.outputfile, cmd.brief)

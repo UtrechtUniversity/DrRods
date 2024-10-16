@@ -37,8 +37,10 @@ def main(rule_args, callback, rei):
 
    changelist = []
    for row in obj_iter:
-       if not regex_data.match(row[1]):
-          continue
+       mixed = "'" in row[0] and ' and ' in row[1]
+       if not mixed:
+          if not regex_data.match(row[1]):
+             continue
        oldname = row[0] + '/' + row[1]
        newname = row[0] + '/' + row[1].replace(" and ", "_and_")
        changelist.append((oldname, newname))

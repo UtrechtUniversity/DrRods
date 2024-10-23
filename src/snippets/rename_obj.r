@@ -13,17 +13,22 @@ import re
 def modify_collection(callback, oldname, newname):
    callback.writeLine("stdout", "OLDC:{}".format(oldname))
    callback.writeLine("stdout", "NEWC:{}".format(newname))
-   callback.msiDataObjRename(oldname, newname, 1, 0)
+   try:
+      callback.msiDataObjRename(oldname, newname, 1, 0)
+   except (Exception) as Error:
+      callback.writeLine("stdout", "--> failed")
 
 def modify_dataobject(callback, oldname, newname):
    callback.writeLine("stdout", "OLDD:{}".format(oldname))
    callback.writeLine("stdout", "NEWD:{}".format(newname))
-   callback.msiDataObjRename(oldname, newname, 0, 0)
-
+   try:
+      callback.msiDataObjRename(oldname, newname, 0, 0)
+   except (Exception) as Error:	
+      callback.writeLine("stdout", "--> failed")
 
 
 def main(rule_args, callback, rei):
-   DRYRUN = True
+   DRYRUN = False
 
 
    # modify DATAOBJECTS 

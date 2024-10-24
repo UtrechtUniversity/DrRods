@@ -31,7 +31,7 @@ def main(rule_args, callback, rei):
 
     repl_iter = genquery.row_iterator(
     "COLL_NAME, DATA_NAME, DATA_REPL_NUM, DATA_REPL_STATUS",
-    "DATA_REPL_STATUS = '2' AND DATA_MODIFY_TIME < '{}'".format(irods_time(threshold_time)),
+    "DATA_REPL_STATUS >= '2' AND DATA_MODIFY_TIME < '{}'".format(irods_time(threshold_time)),
     genquery.AS_LIST,
     callback)
 

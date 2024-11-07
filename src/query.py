@@ -12,11 +12,25 @@ import drrods_sql
 import icat
 
 def data_objects_selection(icat_connection):
-    query = """
+    # select data objects missing a backup replica
+    query1 = """
 select data_id from r_data_main
 group by data_id
 having count(*) < 2
 """
+    # select data objects missing replicas in a second location
+    query2 = """
+select sub.data_id from (
+   select distinct data_id, resc_net from r_data_main d, r_resc_main r
+   where d.resc_id = r.resc_id
+   order by data_id
+   ) as sub
+group by sub.data_id
+having count(*) < 2
+"""
+    # select one of the above queries
+    query = query2
+    # execute and report results on stdout
     ids = []
     try:
        with icat_connection.cursor('server_side_cursor') as cur:
@@ -42,4 +56,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 

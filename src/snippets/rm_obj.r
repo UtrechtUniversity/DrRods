@@ -17,22 +17,22 @@
 #       e.g. ichmod -M -r own rods /tempZone/home
 
 import genquery
-import re
 
 
 def delete_dataobject(callback, name):
-   callback.writeLine("stdout", "Removing:{}".format(name))
-   return
    try:
       callback.msiDataObjUnlink("objPath={}".format(name), 0)
    except (Exception) as Error:	
-      callback.writeLine("stdout", "--> failed")
+      callback.writeLine("stdout", "Failed removing:{}".format(name))
 
 
 def main(rule_args, callback, rei):
+
+   # CONFIGURABLE PARAMETERS:
    DRYRUN = True
    COLLECTION = '/xxx'
    MAX_OBJECTS = 20
+
 
    obj_iter = genquery.row_iterator(
        "DATA_NAME",
